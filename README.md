@@ -10,18 +10,6 @@ Bash and R scripts for conservation genetics analysis of *Pedicularis furbishiae
   `first_filters_m3_p70_x0_S2.singleton.unlinked_0.5_100kbp.vcf.gz`  
   [Download](https://drive.google.com/file/d/1Y8Ew879WDDAhEZCuA0PPKnGqKwD_LInA/view?usp=sharing)
 
-- **Cleaned SNP data**  
-  `stacks_s69ac2mac4dp6miss40.recode.vcf.gz`  
-  [Download](https://drive.google.com/file/d/15tJFhJ9qe3nL2_6aTbCCPKj_mKdQJ1Xc/view?usp=sharing)
-
-- **LD-pruned SNP data (for ADMIXTURE)**  
-  `stacks_s69ac2mac4dp6miss40_ld50kb.recode.vcf.gz`  
-  [Download](https://drive.google.com/file/d/16iwUK8R8GXZu82t2a5cKkH6ncZ-uNZgT/view?usp=sharing)
-
-- **Sequence data for π calculation**  
-  `s69_sequences_for_phylogeny_first_filters_m3_p70_x0_S2.fasta`  
-  [Download](https://drive.google.com/file/d/1GPehOBpxqyjjUoU2sPLVo7qG42fX_UUc/view?usp=sharing)
-
 ---
 
 ### 🧪 Analysis Scripts
@@ -40,6 +28,11 @@ vcftools --gzvcf first_filters_m3_p70_x0_S2.singleton.unlinked_0.5_100kbp.vcf.gz
   --out stacks_s69ac2mac4dp6miss40
 ```
 
+- **Or download cleaned SNP data**  
+  `stacks_s69ac2mac4dp6miss40.recode.vcf.gz`  
+  [Download](https://drive.google.com/file/d/15tJFhJ9qe3nL2_6aTbCCPKj_mKdQJ1Xc/view?usp=sharing)
+
+
 #### Step 2: LD pruning with PLINK for ADMIXTURE
 
 Generate .bed for ADMIXTURE:
@@ -48,6 +41,10 @@ Generate .bed for ADMIXTURE:
 ./run_generate_admixture_files.sh file.recode.vcf
 ```
 
+- **Or download LD-pruned SNP data (for ADMIXTURE)**  
+  `stacks_s69ac2mac4dp6miss40_ld50kb.recode.vcf.gz`  
+  [Download](https://drive.google.com/file/d/16iwUK8R8GXZu82t2a5cKkH6ncZ-uNZgT/view?usp=sharing)
+  
 ---
 
 #### Step 3: Run ADMIXTURE
@@ -74,6 +71,10 @@ rscript /Users/dawsonwhite/Library/Mobile\ Documents/com\~apple\~CloudDocs/R/adm
 
 #### Step 4: PCA and Population Genetic Stats in R
 
->Open "popgen_stats_Pedicularis_v1.R" and run codes.
+- **Download sequence data for π calculation**  
+  `s69_sequences_for_phylogeny_first_filters_m3_p70_x0_S2.fasta`  
+  [Download](https://drive.google.com/file/d/1GPehOBpxqyjjUoU2sPLVo7qG42fX_UUc/view?usp=sharing)
+
+  Open "popgen_stats_Pedicularis_v1.R" and run codes.
 
 ---
