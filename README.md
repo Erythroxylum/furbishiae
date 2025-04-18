@@ -27,7 +27,7 @@ Bash and R scripts for conservation genetics analysis of *Pedicularis furbishiae
 ### 🧪 Analysis Scripts
 
 #### Step 1: Filter VCF output from STACKS using VCFtools  
-(based on [stacks_workflow](https://github.com/enormandeau/stacks_workflow))
+(After following our methods using [stacks_workflow](https://github.com/enormandeau/stacks_workflow))
 
 ```bash
 vcftools --gzvcf first_filters_m3_p70_x0_S2.singleton.unlinked_0.5_100kbp.vcf.gz \
@@ -36,21 +36,35 @@ vcftools --gzvcf first_filters_m3_p70_x0_S2.singleton.unlinked_0.5_100kbp.vcf.gz
   --mac 4 \
   --minDP 6 \
   --max-missing 0.5 \
+  --recode
   --out stacks_s69ac2mac4dp6miss40
 ```
 
 #### Step 2: LD pruning with PLINK for ADMIXTURE
 
+Generate .bed for ADMIXTURE:
+
 ```bash
-plink --vcf stacks_s69ac2mac4dp6miss40.recode.vcf \
-  --indep-pairwise 50 5 0.2 \
-  --out pruned
+./run_generate_admixture_files.sh file.recode.vcf
 ```
 
-Run:
+---
+
+#### Step 3: Run ADMIXTURE
 
 ```bash
-./run_generate_admixture_files.sh
+# run ADMIXTURE using GNU Parallel
+seq 10 | parallel admixture stacks_s69ac2mac4dp6miss40_ld50kb.bed {} -j3 --cv -C 0.00001 -c 0.000000000001 \> {}.log &
+
+## get CVerror
+grep -h CV *.log | sort -V | awk '{print $3,$4}' | cut -d "=" -f 2  | perl -pe 's/\)://' | awk '{print $2,$1}' > cverror.txt
+
+## plot ADMIXTURE barplots
+# 7site with labels
+rscript /Users/dawsonwhite/Library/Mobile\ Documents/com\~apple\~CloudDocs/R/admixture_multiple_k_labels_DW.R \
+-p stacks_s69ac2mac4dp6miss40_ld50kb \
+-i ../sample69_site.txt \
+-k 10 -m 2 -l 1ME-BB,2ME-CA,3ME-DB,4ME-PB,5NB-GF,6NB-MD,8NB-BF
 ```
 
 > Plotting uses the R script `admixture_multiple_k_labels_DW.R`  
@@ -58,18 +72,8 @@ Run:
 
 ---
 
-#### Step 3: Run ADMIXTURE
-
-```bash
-./run_admixture.sh
-```
-
----
-
 #### Step 4: PCA and Population Genetic Stats in R
 
-```r
-source("popgen_stats_Pedicularis_v1.R")
-```
+>Open "popgen_stats_Pedicularis_v1.R" and run codes.
 
 ---
